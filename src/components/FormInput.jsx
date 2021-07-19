@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Cell } from 'styled-css-grid';
+import { Cell } from 'styled-css-grid-v5';
 import styled from 'styled-components';
 import { device } from '../assets/mediaSizes.js';
 
