@@ -1,12 +1,12 @@
 import React from 'react';
+import AppContext from './components/AppContext';
 import Content from './components/Content';
-import LoginForm from './components/LoginForm';
 
 function App() {
   return (
-    <Content>
-      <LoginForm />
-    </Content>
+    <AppContext>
+      <Content />
+    </AppContext>
   );
 }
 

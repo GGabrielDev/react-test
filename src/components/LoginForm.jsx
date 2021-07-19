@@ -1,13 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import axios from 'axios';
 import { Grid, Cell } from 'styled-css-grid-v5';
 import FormTemplate from './FormTemplate';
 import FormInput from './FormInput';
-import { AuthContext } from '../components/Content';
 import { device } from '../assets/mediaSizes.js';
-
-const API_URL = 'https://dev.tuten.cl/TutenREST/rest/user/';
 
 const FormCard = styled(Grid)`
   width: 40%;
@@ -15,6 +12,7 @@ const FormCard = styled(Grid)`
   align-self: center;
   padding: 1rem 0;
   background-color: rgb(255, 255, 255);
+  border-radius: 0.3rem;
   grid-gap: 1rem;
   text-align: center;
 
@@ -87,35 +85,7 @@ const Button = styled.button`
   }
 `;
 
-const LoginForm = () => {
-  const [loginForm, setLoginForm] = useState({
-    app: 'APP_BCK',
-    user: '',
-    password: '',
-  });
-  const { updateLogin } = useContext(AuthContext);
-
-  const handleChange = input => e => {
-    setLoginForm({
-      ...loginForm,
-      [input]: e.target.value,
-    });
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    const config = {
-      headers: {
-        password: loginForm.password,
-        app: loginForm.app,
-      },
-    };
-
-    axios
-      .put(`${API_URL}${loginForm.user}`, undefined, config)
-      .then(res => updateLogin(res.data));
-  };
-
+const LoginForm = props => {
   return (
     <FormCard columns={1}>
       <Cell middle center height={3}>
@@ -124,26 +94,32 @@ const LoginForm = () => {
       <FormTemplate>
         <FormInput
           name="lEmail"
-          onChange={handleChange('user')}
+          onChange={props.handleChange('user')}
           placeholder="Correo electrónico"
           type="email"
-          value={loginForm.user}
+          value={props.value.user}
         />
         <FormInput
           name="lPassword"
-          onChange={handleChange('password')}
+          onChange={props.handleChange('password')}
           placeholder="Contraseña"
           type="password"
-          value={loginForm.password}
+          value={props.value.password}
         />
       </FormTemplate>
       <Cell middle center height={3}>
-        <Button color="rgb(38, 208, 76)" onClick={handleSubmit}>
+        <Button color="rgb(38, 208, 76)" onClick={props.handleSubmit}>
           Siguiente
         </Button>
       </Cell>
     </FormCard>
   );
+};
+
+LoginForm.propTypes = {
+  handleSubmit: PropTypes.func,
+  handleChange: PropTypes.func,
+  value: PropTypes.object,
 };
 
 export default LoginForm;
