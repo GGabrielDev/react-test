@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { AuthContext } from '../components/AppContext';
 import LoginForm from '../components/LoginForm';
+import BookingGrid from '../components/BookingGrid';
 
 const API_URL = 'https://dev.tuten.cl/TutenREST/rest/user/';
 
@@ -22,7 +23,7 @@ const Content = () => {
     user: '',
     password: '',
   });
-  const { updateLogin } = useContext(AuthContext);
+  const { login, updateLogin } = useContext(AuthContext);
 
   const handleChange = input => e => {
     setLoginForm({
@@ -47,11 +48,15 @@ const Content = () => {
 
   return (
     <AppContent>
-      <LoginForm
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        value={loginForm}
-      />
+      {!login.active ? (
+        <LoginForm
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          value={loginForm}
+        />
+      ) : (
+        <BookingGrid />
+      )}
     </AppContent>
   );
 };
